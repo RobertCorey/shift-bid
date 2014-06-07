@@ -1,4 +1,6 @@
-html,body{height:100%;}
+html,body{
+	height:100%;
+}
 table {
     table-layout: fixed;
     word-wrap: break-word;
@@ -14,5 +16,8 @@ table {
 	margin-bottom: 1em;
 }
 .shiftBox{
+	border: solid black 1px;
+}
+.debug{
 	border: solid black 1px;
 }

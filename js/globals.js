@@ -1,0 +1,1 @@
+$('body').height(document.documentElement.clientHeight);

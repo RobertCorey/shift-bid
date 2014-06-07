@@ -1,0 +1,14 @@
+td{
+	border-style: solid;
+}
+.container{
+	margin-top: 2%;
+}
+.menu-button{
+	width: 100%;
+	margin-bottom: 1em;
+}
+.shiftBox{
+	border-style: solid;
+	height: 200px;
+}

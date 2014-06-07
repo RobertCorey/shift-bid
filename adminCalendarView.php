@@ -33,6 +33,7 @@ require 'adminCalendarViewController.php';
       <div class="col-xs-offset-1 col-xs-9">
         <table class="table">
           <tr>
+            <th></th>
             <th>Sunday</th>
             <th>Monday</th>
             <th>Tuesday</th>
@@ -42,13 +43,24 @@ require 'adminCalendarViewController.php';
             <th>Saturday</th>
           </tr>
           <tr>
-            <td>Morning</td>
-            <td>Morning</td>
-            <td>Morning</td>
-            <td>Morning</td>
-            <td>Morning</td>
-            <td>Morning</td>
-            <td>Morning</td>
+            <th>Morning Shifts</th>
+            <td class="shiftBox">Morning</td>
+            <td class="shiftBox">Morning</td>
+            <td class="shiftBox">Morning</td>
+            <td class="shiftBox">Morning</td>
+            <td class="shiftBox">Morning</td>
+            <td class="shiftBox">Morning</td>
+            <td class="shiftBox">Morning</td>
+          </tr>
+          <tr>
+            <th>Afternoon Shifts</th>
+            <td class="shiftBox">Afternoon</td>
+            <td class="shiftBox">Afternoon</td>
+            <td class="shiftBox">Afternoon</td>
+            <td class="shiftBox">Afternoon</td>
+            <td class="shiftBox">Afternoon</td>
+            <td class="shiftBox">Afternoon</td>
+            <td class="shiftBox">Afternoon</td>
           </tr>
         </table>
       </div>
@@ -60,5 +72,12 @@ require 'adminCalendarViewController.php';
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
   <script src="js/bootstrap.min.js"></script>
+  <script>
+    $(document).ready(function(){
+        var height = $(".container").height();
+        height /= 3;
+        $('.shiftBox').css("height",height);
+    });
+</script>
 </body>
 </html>

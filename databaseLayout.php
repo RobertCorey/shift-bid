@@ -1,0 +1,20 @@
+Employee:
+	ID
+	Name
+	Email
+	Password
+	Points
+Shift
+	ID
+	Date
+	Type
+Bid
+	ID
+	Timestamp
+	Amount
+	ShiftID
+	EmployeeID
+Table:
+	shiftID
+	EmployeeID
+	

@@ -16,7 +16,7 @@ if (!isset($_SESSION)){
 }
 
 if (!isset($database)) {
-    $database = mysqli_connect("localhost", "root", "jaFuw7eNu", "shift-bid") or die("Could not connect");
+    $database = mysqli_connect("localhost", "root", "", "shift-bid") or die("Could not connect");
 }
 
 //Function used to display the nav bar on a page
@@ -40,6 +40,8 @@ function addNavBar()
 	    <!-- Collect the nav links, forms, and other content for toggling -->
 	    <div class="collapse navbar-collapse">
 	      <ul class="nav navbar-nav navbar-right">
+	      	<li><a href="employeeCalendarView.php">View Calendar</a></li>
+	      	<li><a href="tasks.php">Earn Points</a></li>
 	        <li><a href="logout.php">Logout</a></li>
 	        
 	      </ul>

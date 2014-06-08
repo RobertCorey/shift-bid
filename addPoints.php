@@ -41,6 +41,11 @@ $employees = $database->query("SELECT emp_num, emp_f_name, emp_l_name, emp_point
             <button type="button" class="btn btn-primary btn-lg menu-button">Grant Users Points</button>
           </a>
         </div>
+         <div class="row">
+          <a href="addTask.php">
+            <button type="button" class="btn btn-primary btn-lg menu-button">Add New Task</button>
+          </a>
+        </div>
       </div>
       <div class="col-xs-offset-1 col-xs-9">
         <select name="employee" id="employee" style="width:40%;">

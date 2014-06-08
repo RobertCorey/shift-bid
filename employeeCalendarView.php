@@ -1,9 +1,8 @@
 <?php
 require 'php/global.php';
 require 'php/Calendar.php';
-protectPage();
-$userEmail = $_SESSION['email'];
-$calendar = new Calendar(2, "America/New_York", $database, $userEmail);
+//protectPage();
+$calendar = new Calendar(4, "America/New_York", $database);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,9 +22,14 @@ $calendar = new Calendar(2, "America/New_York", $database, $userEmail);
 <![endif]-->
 </head>
 <body>
+  <?php
+    //Add nav bar to the page
+    addNavBar();
+
+  ?>
   <div class="container">
     <?php $calendar->drawCalendar(); ?>
-  </div>
+
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->

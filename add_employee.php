@@ -7,7 +7,7 @@
 session_start();
 
 //Check to make sure employee is logged in 
-include 'php/global.php';
+require 'php/global.php'; 
 
 ?>
 

@@ -35,6 +35,7 @@
         <div class="jumbotron">
             <h1><center>Shift Bid</center></h1>
         </div>
+        <h2><center>Shift Bid is going to revolutionize the restaurant industry.  It is a web application used by employees to bid on popular shifts in a restaurant setting. </center></h2>
         <h1>Game Theory Optimal Scheduling Anyone??</h1>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->

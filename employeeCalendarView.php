@@ -2,7 +2,8 @@
 require 'php/global.php';
 require 'php/Calendar.php';
 protectPage();
-$calendar = new Calendar(4, "America/New_York", $database);
+$userEmail = $_SESSION['email'];
+$calendar = new Calendar(2, "America/New_York", $database, $userEmail);
 ?>
 <!DOCTYPE html>
 <html lang="en">

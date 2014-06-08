@@ -1,6 +1,6 @@
 <?php 
 require 'php/global.php';
-
+$employees = $database->query("SELECT emp_num, emp_f_name, emp_l_name, emp_points FROM employee");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -43,6 +43,17 @@ require 'php/global.php';
         </div>
       </div>
       <div class="col-xs-offset-1 col-xs-9">
+        <select name="employee" id="employee" style="width:40%;">
+          <?php 
+          while($employee = $employees->fetch_assoc()){
+            $str = '<option value="' . $employee['emp_num'] . '">' . $employee['emp_f_name'] . ", " . $employee['emp_l_name'];
+            $str .= "</option>";
+            echo $str;
+          }
+          ?>
+        </select>
+        <button type="button" id="addPointChoose" class="btn btn-default">Select Customer</button>
+        </form>
       </div>
     </div>
   </div>
@@ -51,12 +62,6 @@ require 'php/global.php';
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
 <script src="js/bootstrap.min.js"></script>
-<script>
-  $(document).ready(function(){
-    var height = $(".container").height();
-    height /= 3;
-    $('.shiftBox').css("height",height);
-  });
-</script>
+<script src="js/addPoints.js"></script>
 </body>
 </html>

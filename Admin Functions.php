@@ -4,7 +4,7 @@
 session_start();
 
 //Function to add an employee to the database
-public function add_employee($number, $fname, $lname, $email, $role, $password){
+function add_employee($number, $fname, $lname, $email, $role, $password){
 
 	//Make page to get information from previous page
 	//Get username from employee add page
@@ -20,7 +20,6 @@ public function add_employee($number, $fname, $lname, $email, $role, $password){
 	$emp_hashed_pword = password_hash($emp_password, PASSWORD_DEFAULT);
 
 	// Connect to the database
-	//include 'connect.php';
 	$link = mysqli_connect("localhost", "root", "", "shift-bid") or die(mysqli_error()); 
 
 	# Create query string with marker for $uname
@@ -110,10 +109,10 @@ public function add_employee($number, $fname, $lname, $email, $role, $password){
 }
 
 //Function to remove an employee
-public function add_points($pointsToAdd){
+function add_points($pointsToAdd){
 
 	//Query to get current employee points
-	
+
 	$
 
 	//Create query to add points to the employee table

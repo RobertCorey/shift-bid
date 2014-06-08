@@ -43,6 +43,7 @@ $employees = $database->query("SELECT emp_num, emp_f_name, emp_l_name, emp_point
         </div>
       </div>
       <div class="col-xs-offset-1 col-xs-9">
+        <label for="employee">Select A Customer </label>
         <select name="employee" id="employee" style="width:40%;">
           <?php 
           while($employee = $employees->fetch_assoc()){
@@ -52,8 +53,10 @@ $employees = $database->query("SELECT emp_num, emp_f_name, emp_l_name, emp_point
           }
           ?>
         </select>
-        <button type="button" id="addPointChoose" class="btn btn-default">Select Customer</button>
-        </form>
+        <div class="row">
+          <div class="col-xs-8 col-xs-offest-2" id="employeeDetail">
+          </div>
+        </div>
       </div>
     </div>
   </div>

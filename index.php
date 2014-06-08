@@ -20,10 +20,10 @@
     <div class="container">
         <div class="navbar navbar-default">
             <span class="navbar-brand">Shift Bid</span>
-            <form action="login.php" class="navbar-form navbar-right" method="POST">
+            <form action="check_login.php" class="navbar-form navbar-right" method="POST">
                 <div class="form-group">
-                    <label for="username">Username:</label>
-                    <input type="text" class="form-control" name="username">
+                    <label for="email">Email:</label>
+                    <input type="text" class="form-control" name="email">
                 </div>  
                 <div class="form-group">
                     <label for="password">Password:</label>
@@ -33,8 +33,9 @@
             </form>
         </div>
         <div class="jumbotron">
-            <h1>Game Theory Optimal Scheduling</h1>
+            <h1><center>Shift Bid</center></h1>
         </div>
+        <h1>Game Theory Optimal Scheduling Anyone??</h1>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>

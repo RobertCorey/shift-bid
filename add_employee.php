@@ -6,8 +6,9 @@
 
 session_start();
 
-//Get current username from previous page
-//$emp_num= $_SESSION['emp_num'];   UNCOMMENT WHEN READY TO TEST!!!!!!!!!!
+//Check to make sure employee is logged in 
+include 'global.php';
+
 ?>
 
 <!DOCTYPE html>

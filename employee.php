@@ -140,13 +140,22 @@ if ($allCorrect){
     <h1>Add An Employee</h1>
   </div>
     <div class="row">
-      <div class="col-xs-2 float-left">
+      <div class="col-xs-2">
         <div class="row">
-          <a href="createShift.php"><button type="button" class="btn btn-primary btn-lg menu-button">Create Shifts</button></a>
+          <a href="createShift.php">
+            <button type="button" class="btn btn-primary btn-lg menu-button">Create Shifts</button>
+          </a>
         </div>
         <div class="row">
-          <button type="button" class="btn btn-primary btn-lg menu-button disabled">Add Employee</button>
+          <a href="employee.php">
+            <button type="button" class="btn btn-primary btn-lg menu-button">Add Employee</button>
+          </a>
         </div> 
+        <div class="row">
+          <a href="addPoints.php">
+            <button type="button" class="btn btn-primary btn-lg menu-button">Grant Users Points</button>
+          </a>
+        </div>
       </div>
       <div class="col-xs-offset-1 col-xs-9">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">

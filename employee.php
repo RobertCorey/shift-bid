@@ -156,6 +156,11 @@ if ($allCorrect){
             <button type="button" class="btn btn-primary btn-lg menu-button">Grant Users Points</button>
           </a>
         </div>
+         <div class="row">
+          <a href="addTask.php">
+            <button type="button" class="btn btn-primary btn-lg menu-button">Add New Task</button>
+          </a>
+        </div>
       </div>
       <div class="col-xs-offset-1 col-xs-9">
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]);?>" method="POST">

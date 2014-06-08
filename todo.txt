@@ -1,0 +1,5 @@
+move car from parking lot before 6 in the morning.
+Calendar
+    validate bid to make sure amount is okay
+    format table so all tds are correctly formatted
+    write header file that has a needed files included

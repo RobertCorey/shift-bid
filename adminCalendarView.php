@@ -76,6 +76,6 @@
         height /= 3;
         $('.shiftBox').css("height",height);
     });
-</script>
+  </script>
 </body>
 </html>

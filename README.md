@@ -1,3 +1,3 @@
 shift-bid
 =========
-This is for happy fun turtle
+Web Platform that determines work schedules by allowing workers to bid for shifts

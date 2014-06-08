@@ -38,7 +38,7 @@ require 'php/global.php';
     	//Retrieve verified data from session
 		$first_name = $_SESSION['first_name'];
 		$last_name= $_SESSION['last_name'];
-		$email = $_SESSION['email'];
+		$email = $_SESSION['emp_email'];
 		$role = $_SESSION['role'];
 		$email = $_SESSION['email'];
 		$password = $_SESSION['password'];

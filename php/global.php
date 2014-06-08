@@ -48,5 +48,4 @@ function addNavBar()
 	    <?php
 	}
 }
-
 ?>

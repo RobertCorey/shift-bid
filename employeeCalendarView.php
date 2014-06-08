@@ -6,6 +6,10 @@ if (isset($_POST)) {
     unset($_POST);
 }
 $email = $_SESSION['emp_email'];
+$result = $database->query("SELECT emp_f_name, emp_l_name, emp_points
+    FROM employee
+    WHERE emp_email = '$email'");
+$currentUserInfo = $result->fetch_assoc();
 $calendar = new Calendar(2, "America/New_York", $database, $email);
 ?>
 <!DOCTYPE html>
@@ -30,6 +34,10 @@ $calendar = new Calendar(2, "America/New_York", $database, $email);
     //Add nav bar to the page
     addNavBar();
   ?>
+  <div class="pull-right spacer well" id="userInfo">
+      <h4><?php echo $currentUserInfo['emp_f_name'] . " " . $currentUserInfo['emp_l_name']; ?></h4>
+      <h4><?php echo "Points:</h4>" . $currentUserInfo['emp_points']; ?>
+  </div>
   <div class="container">
     <?php $calendar->drawCalendar(); ?>
 

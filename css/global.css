@@ -24,3 +24,7 @@ table {
 .btn-lg{
 	width: 100%;
 }
+#userInfo{
+	width:10%;
+	margin-right: 2%;
+}

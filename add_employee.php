@@ -32,6 +32,9 @@ include 'php/global.php';
     <div class="container">
     <?php
 
+    	//Include global.php file
+    	require 'php/global.php';
+
     	//Retrieve verified data from session
 		$first_name = $_SESSION['first_name'];
 		$last_name= $_SESSION['last_name'];
@@ -42,6 +45,7 @@ include 'php/global.php';
 
 		// Hash the password to be stored securely in the database
 		$hashed_pword = md5($password);
+
 		# Create query string with marker for $uname
 		$query = "SELECT * FROM employee WHERE emp_email = ?";
 

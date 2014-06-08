@@ -25,7 +25,7 @@
 
 // }
 date_default_timezone_set("America/New_York");
-$database = mysqli_connect("localhost", "root", "jaFuw7eNu", "shift-bid") or die;
+require 'php/global.php';
 $test = date("Y m d");
 $test = str_replace(" ", "/", $test);
 echo $test;

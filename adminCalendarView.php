@@ -28,6 +28,9 @@
           <div class="row">
             <button type="button" class="btn btn-primary btn-lg menu-button">View Schedule</button>
           </div>  
+          <div class="row">
+            <a href="employee.php"><button type="button" class="btn btn-danger btn-lg menu-button">Add Employee</button></a>
+          </div> 
         </div>
       <div class="col-xs-offset-1 col-xs-9">
         <table class="table">

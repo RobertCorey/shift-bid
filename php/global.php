@@ -13,6 +13,6 @@ if (!isset($_SESSION)){
 }
 
 if (!isset($database)) {
-    $database = mysqli_connect("localhost", "root", "jaFuw7eNu", "shift-bid") or die("Could not connect");
+    $database = mysqli_connect("localhost", "root", "", "shift-bid") or die("Could not connect");
 }
 ?>

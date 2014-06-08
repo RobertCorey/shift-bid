@@ -42,7 +42,7 @@ session_start();
     		<?php
 
     		//Connect to the database
-    		$link = mysqli_connect("localhost", "root", "", "shift-bid") or die(mysqli_error()); 
+    		$database = mysqli_connect("localhost", "root", "", "shift-bid") or die(mysqli_error()); 
 
     		// Retrieve the points from the database with the given emp_num
 			$query = "SELECT emp_points
@@ -62,6 +62,9 @@ session_start();
 
 			//Fetch poitns
 			mysqli_stmt_fetch($stmt)
+
+      //Close the connection
+      mysqli_close($database);
 				
 			?>
 

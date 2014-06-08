@@ -22,7 +22,7 @@
 			$_SESSION['email'] = $email;
 
 			//Direct user to calendar page
-			header('Location: adminCalendarView.php'); //Change to calendarView.php once created
+			header('Location: employeeCalendarView.php'); 
 
 			//Close the database connection
 			mysqli_close($database);

@@ -1,6 +1,22 @@
 <?php 
+require 'php/global.php';
 if ($_SERVER['REQUEST_METHOD'] === "POST") {
-    print_r($_POST);
+    $errorMessage = "";
+    if (!isset($_POST['shiftDate'])) {
+        $errorMessage .= "You must enter a date for the shift<br>";
+    }
+    if (!isset($_POST['numStaffNeeded'])) {
+        $errorMessage .= "You must enter the number of staff needed for that shift<br>";
+    }
+    if ($errorMessage === "") {
+        $time = $_POST['shiftDate'];
+        $numStaff = $_POST['numStaffNeeded'];
+        $result = $database->query("INSERT INTO shifts (date_of_shift, max_num_employees)
+            VALUES ('$time', '$numStaff')");
+        if ($result) {
+            $insertSuccess = true;
+        }
+    }
 }
 ?>
 <!DOCTYPE html>
@@ -36,16 +52,28 @@ if ($_SERVER['REQUEST_METHOD'] === "POST") {
       </div>
       <div class="col-xs-offset-1 col-xs-9">
       <form role="form" action="createShift.php" method="POST">
-          <div class="form-group">
-          <label for="shiftDate">What Day is the Shift?</label>
-          <input type="date" class="form-control" name="shiftDate">
-        </div>
         <div class="form-group">
-          <label for="numStaffNeeded">How many Staff Members will be needed that day?</label>
-          <input type="number" name="numStaffNeeded" min="1" max="99">
+          <label for="numStaffNeeded">How many Staff Members will be needed?</label>
+          <input type="number" name="numStaffNeeded" min="1" max="99" value="5">
         </div>
+          <div class="row">
+            <div class="col-xs-4">
+              <div class="form-group">
+                <label for="shiftDate">What Day is the Shift?</label>
+                <input type="date" class="form-control" name="shiftDate">
+              </div>
+            </div>
+          </div>
         <button class="btn btn-default" type="submit">Add Shift</button>
       </form>
+        <?php 
+            if (isset($errorMessage) && $errorMessage !== "") {
+                echo $errorMessage;
+            }
+            if (isset($insertSuccess)) {
+                echo "Shift was entered into the calendar successfully!";
+            }
+        ?>
       </div>
     </div>
   </div>

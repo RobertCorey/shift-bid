@@ -3,3 +3,4 @@ Calendar
     validate bid to make sure amount is okay
     format table so all tds are correctly formatted
     write header file that has a needed files included
+    drink as much diet coke as possible in order to recoup entry fee

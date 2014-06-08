@@ -1,5 +1,8 @@
 <?php
-require 'php/drawTable.php';
+require 'php/global.php';
+require 'php/Calendar.php';
+protectPage();
+$calendar = new Calendar(4, "America/New_York", $database);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -20,21 +23,7 @@ require 'php/drawTable.php';
 </head>
 <body>
   <div class="container">
-    <table class="table">
-      <tr>
-        <th>a</th>
-        <th>aa</th>
-        <th>aaa</th>
-        <th>aaaa</th>
-        <th>aaaaa</th>
-        <th>aaaaaa</th>
-        <th>aaaaaaa</th>
-        <th>aaaaaaaa</th>
-      </tr>
-      <tr>
-
-      </tr>
-    </table>
+    <?php $calendar->drawCalendar(); ?>
   </div>
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>

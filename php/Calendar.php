@@ -201,7 +201,6 @@ class Calendar
     public function drawCalendar()
     {
         $unixDates = $this->buildDateArray(-1, $this->days);
-        date_default_timezone_set("America/New_York");
         echo '<table class="table">';
         echo '<tr>';
         foreach ($unixDates as $key) {

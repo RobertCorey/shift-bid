@@ -1,3 +1,2 @@
-javascript to pretty things up
-work on pitch
-0 points
+Admin Functionality
+Beautify employee status window

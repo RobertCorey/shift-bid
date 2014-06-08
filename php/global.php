@@ -1,4 +1,5 @@
-<?php 
+<?php
+date_default_timezone_set("America/New_York"); 
 //Function used only allow authorized employees to view a page
 if (!function_exists('protectPage')){
 	function protectPage()

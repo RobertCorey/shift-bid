@@ -1,7 +1,6 @@
 <?php
 require 'global.php'; 
 protectPage();
-date_default_timezone_set("America/New_York");
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     //get user id
     $email = $_SESSION['emp_email'];

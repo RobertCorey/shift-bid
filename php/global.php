@@ -1,5 +1,4 @@
 <?php 
-
 //Function used only allow authorized employees to view a page
 if (!function_exists('protectPage')){
 	function protectPage()
@@ -16,7 +15,7 @@ if (!isset($_SESSION)){
 }
 
 if (!isset($database)) {
-    $database = mysqli_connect("localhost", "root", "", "shift-bid") or die("Could not connect");
+    $database = mysqli_connect("localhost", "root", "jaFuw7eNu", "shift-bid") or die("Could not connect");
 }
 
 //Function used to display the nav bar on a page
@@ -49,5 +48,4 @@ function addNavBar()
 	    <?php
 	}
 }
-
 ?>

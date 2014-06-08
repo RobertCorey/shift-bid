@@ -21,3 +21,10 @@ table {
 .debug{
 	border: solid black 1px;
 }
+.btn-lg{
+	width: 100%;
+}
+#userInfo{
+	width:10%;
+	margin-right: 2%;
+}

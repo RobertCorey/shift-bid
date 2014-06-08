@@ -3,9 +3,7 @@
     Page to add an employee into the database
     *Important: File doesn't check for CSRF Attack
 */
-
-session_start();
-
+require 'php/global.php';
 //Get current  from previous page
 //$emp_num= $_SESSION['emp_num'];
 
@@ -18,99 +16,118 @@ $lnameErr = $emailErr = $mismatchErr = $match = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST")
 {
-  //First name
+//First name
   $allCorrect = true;
-   if (empty($_POST["first_name"])) {
+  if (empty($_POST["first_name"])) {
     $fnameErr = "First name is required";
     $allCorrect = false;
-    }
-    else{
-        $first_name = $_POST['first_name'];
-    }
-  //Last name
-  if (empty($_POST["last_name"])) {
+}
+else{
+    $first_name = $_POST['first_name'];
+}
+//Last name
+if (empty($_POST["last_name"])) {
     $lnameErr = "Last name is required";
     $allCorrect = false;
-    }
-    else{
-        $last_name = $_POST['last_name'];
-    }
-  //email
-  if (empty($_POST["email"])) {
+}
+else{
+    $last_name = $_POST['last_name'];
+}
+//email
+if (empty($_POST["email"])) {
     $emailErr = "Email is required";
     $allCorrect = false;
-    }
-    else{
-        $email = $_POST['email'];
-    }
-  //Password first entered
-  if (empty($_POST["password"])) {
+}
+else{
+    $email = $_POST['email'];
+}
+//Password first entered
+if (empty($_POST["password"])) {
     $passwordErr = "Password is required";
     $allCorrect = false;
-    }
-    else{
-        $password = $_POST['password'];
-    }
-  //Confirmed password
-  if (empty($_POST["verify_password"])) {
+}
+else{
+    $password = $_POST['password'];
+}
+//Confirmed password
+if (empty($_POST["verify_password"])) {
     $verify_passwordErr = "Password verification is required";
     $allCorrect = false;
-    }
-    else{
-        $verify_password = $_POST['verify_password'];
-    }
-  //Role
-  if (empty($_POST["role"])) {
+}
+else{
+    $verify_password = $_POST['verify_password'];
+}
+//Role
+if (empty($_POST["role"])) {
     $roleErr = "Role is required";
     $allCorrect = false;
+}
+else{
+    $role = $_POST['role'];
+}
+if ($password != $verify_password) {
+    $verify_passwordErr .= "<br>Password verification does not match";
+    $allCorrect = false;
+}
+else {
+    $match = "match";
+}
+if ($allCorrect){
+    //insert into database  
+    // Hash the password to be stored securely in the database
+    $hashed_pword = md5($password);
+    // Create query string with marker for $uname
+    $query = "SELECT * FROM employee WHERE emp_email = ?";
+    // Prepare the query statement
+    if (!$stmt = mysqli_prepare($database, $query)) {
+        die("Error in query");
     }
-    else{
-        $role = $_POST['role'];
-    }
-
-  //Check to see if the two password matches
-  if (!$password || !$verify_password){
-    //display nothing
-  }
-  else{
-    if ($password != $verify_password) {
-        $mismatchErr = "Password verification does not match";
-        $allCorrect = false;
-    }
-    else {
-        $match = "match";
+    // Bind the parameter $email to ? marker in the query string
+    mysqli_stmt_bind_param($stmt, 's', $email);
+    // Execute the query statement
+    mysqli_stmt_execute($stmt);
+    // Store the result so we can get number of rows
+    mysqli_stmt_store_result($stmt);
+    // Find out how many rows in the result 
+    $rows = mysqli_stmt_num_rows($stmt);
+    if ($rows != 0) {
+        $emailErr .= "Email Already exists!";
+        // Close statement
+        mysqli_stmt_close($stmt);
+    } else {
+        // Create query to submit the registration information to the database
+        $query = "INSERT INTO employee (emp_f_name, emp_l_name, emp_role, emp_points, emp_email, emp_password)
+            VALUES (?, ?, ?, 0, ?, ?)";
+        // Prepare the query statement
+        if (!$stmt = mysqli_prepare($database, $query)) {
+            die("Error in query");
+        }
+        // Bind parameters to markers
+        mysqli_stmt_bind_param($stmt, 'sssss', $first_name, $last_name, $role, $email, $hashed_pword);
+        // Execute the query statement
+        mysqli_stmt_execute($stmt);
+        echo '<div class="alert alert-success">Registration Successful! <a href=\'index.php\'>LOGIN</a></div>';
+        // Close the statement
+            mysqli_stmt_close($stmt);
+        }
+    // Close the connection
+    mysqli_close($database);
     }
 }
+        ?>
 
-  if ($allCorrect){
-  
-    // When all of the data passes the verification, session variables are set 
-    // and page is redirected to register.php
-  
-    $_SESSION['first_name'] = $first_name;
-    $_SESSION['last_name'] = $last_name;
-    $_SESSION['emp_email'] = $email;
-    $_SESSION['role'] = $role;
-    $_SESSION['password'] = $password;
-    header('Location: add_employee.php');
-    exit();
-  }
-}
-
-?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Add Employee Page</title>
-    <link rel="stylesheet" href="css/global.css">
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <title>Add Employee Page</title>
+            <link rel="stylesheet" href="css/global.css">
+            <!-- Bootstrap -->
+            <link href="css/bootstrap.min.css" rel="stylesheet">
+            <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+            <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
 <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>

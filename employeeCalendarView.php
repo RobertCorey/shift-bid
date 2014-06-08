@@ -2,8 +2,11 @@
 require 'php/global.php';
 require 'php/Calendar.php';
 protectPage();
+if (isset($_POST)) {
+    unset($_POST);
+}
 $email = $_SESSION['emp_email'];
-$calendar = new Calendar(4, "America/New_York", $database, $email);
+$calendar = new Calendar(2, "America/New_York", $database, $email);
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +29,6 @@ $calendar = new Calendar(4, "America/New_York", $database, $email);
   <?php
     //Add nav bar to the page
     addNavBar();
-
   ?>
   <div class="container">
     <?php $calendar->drawCalendar(); ?>
@@ -39,7 +41,7 @@ $calendar = new Calendar(4, "America/New_York", $database, $email);
     $(document).ready(function(){
         var height = $(".container").height();
         height /= 3;
-        $('.shiftBox').css("height",height);
+        $('.spacer').css("height",height);
     });
   </script>
 </body>

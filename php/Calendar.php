@@ -1,7 +1,4 @@
 <?php
-/**
-* 
-*/
 class Employee
 {
     
@@ -50,14 +47,15 @@ class Bid
 class Auction
 {
     
-    function __construct($auctionData,$date,$maxNumber,$userEmail,$userBalance)
+    function __construct($auctionData, $date, $maxNumber, $userEmail, $userBalance, $id)
     {
         $this->proccessBidData($auctionData);
         $this->date = $date;
         $this->maxNumber = $maxNumber;
         $this->userBalance = $userBalance;
+        $this->id = $id;
+        $this->userEmail = $userEmail;
     }
-
     private function proccessBidData($auctionData)
     {
         $this->bids = [];
@@ -84,6 +82,9 @@ class Auction
         } else {
             $winningBids = $this->getWinningBids();
             $lastPlaceBid = $winningBids[count($winningBids) - 1];
+            //min wager is 1 more than current wager
+            $minWage = $lastPlaceBid->wager + 1;
+            return $minWage;
         }
     } 
     private function isDateOkay()
@@ -91,7 +92,7 @@ class Auction
         $date = strtotime($this->date);
         $currentDate = time();
         $cutOff = $currentDate - (12 * 60 * 60);
-        if ($date > $cutOff) {
+        if ($date <= $cutOff) {
             return false;   
         } else {
             return true;
@@ -99,12 +100,47 @@ class Auction
     }
     private function userBalanceOkay()
     {
-    
+        if ($this->getMinimumBid() > $this->userBalance) {
+            return false;
+        } else {
+            return true;
+        }
     }
-    private function printWinnerList()
+    private function userOnList()
     {
+        $winners = $this->getWinningBids();
+        for ($i=0; $i < count($winners); $i++) { 
+            if ($winners[$i]->employee->email === $this->userEmail) {
+                return true;            
+            }
+        }
+        return false;
+    }
+    private function chooseDisplayButton()
+    {
+        if (!$this->isDateOkay()) {
+            return "<button class='btn btn-lg btn-warning disabled'> Bidding Closed </button>";
+        } elseif (!$this->userBalanceOkay()) {
+            return "<button class='btn btn-lg btn-danger disabled'> Insufficient Points</button>";
+        } elseif($this->userOnList()) {
+            return "<button class='btn btn-lg btn-info disabled'> You're Currently Winning! </button>";
+        } else {
+            $form = '<form action="php/placeBid.php" method="POST">';
+            $form .= '<input type="hidden" name="shiftID" value="' . $this->id . '">';
+            $form .= '<input type="hidden" name="amount" value="' . $this->getMinimumBid() . '">';
+            $form .= '<button class="btn btn-lg btn-success" id="bidButton" type="submit">';
+            $form .= 'Bid ' . $this->getMinimumBid() . ' points';
+            $form .= "</button>";
+            $form .= "</form>";
+            return $form;
+        }
+    }
+    public function printAuctionModel()
+    {
+        echo "<h5>" . $this->maxNumber . " Servers needed</h5>";
         $winningBids = $this->getWinningBids();
-        $printList = "<table class='table'>";
+        $printList = "<div class='spacer'>";
+        $printList .= "<table class='table'>";
         $printList .= "<tr> <th> Name </th> <th> Bid </th> </tr> ";
         for ($i=0; $i < $this->maxNumber; $i++) { 
             $printList .= "<tr>";
@@ -116,22 +152,10 @@ class Auction
             $printList .= "</tr>";
         }
         $printList .= "</table>";
-        if (!$this->isDateOkay()) {
-            $printList .= "<button class='btn btn-lg btn-warning disabled'> Bidding Closed </button>";
-        } elseif (true) {
-            echo "true";
-        }
+        $printList .= "</div>";
+        $printList .= $this->chooseDisplayButton();
         echo $printList;
     }
-    public function test()
-    {
-        print_r($this->printWinnerList());
-    }
-    public function printAuctionStatus($value='')
-    {
-        
-    }
-
 }
 /**
 * Represents a Calendar that can be clicked upon
@@ -171,40 +195,8 @@ class Calendar
         $data = $result->fetch_assoc();
         $result = $this->database->query("SELECT `emp_points` FROM `employee` WHERE emp_email = '$this->userEmail' ");
         $userPoints = $result->fetch_assoc()['emp_points'];
-        $auction = new Auction($bids,$data['date_of_shift'], $data['max_num_employees'], $this->userEmail, $userPoints);
-        $auction->test();
-    }
-    private function drawBidList($bids,$maxNumber)
-    {
-        $bidList = "<table class='table table-condensed'>";
-        $bidList .= "<tr> <th> Employee </th> <th>Bid</th> </tr>";
-        for ($i=0; $i < $maxNumber; $i++) {
-            $bidList .= "<tr>";
-            //if there are more spots than there are bids
-            if ($i >= count($bids)) {
-                $bidList .= "<td> Open Shift Spot! </td>";
-            } else {
-                $bidList .= "<td>" . $bids[$i]['emp_f_name'] . " " . $bids[$i]['emp_l_name'];
-                $bidList .= "<td>" . $bids[$i]['wager'] . "</td>";
-            }
-            $bidList .= "</tr>";
-        }
-        $bidList .= "</table>";
-        return $bidList;
-    }
-    private function drawBidButton($minBid)
-    {
-        
-        $email = $this->userEmail;
-        $result = $this->database->query("SELECT emp_points FROM employee WHERE emp_email = '$email'");
-        $data = $result->fetch_assoc();
-        $points = $data['emp_points'];
-        $str = '<form action="php/submitBid.php" method="POST">';
-        $str .= '<input type="hidden" name="maxBid" value="' . $minBid . '">';
-        $str .= '<button class="btn btn-success">';
-        $str .= ' Claim a spot for ' . ($minBid + 1) . ' points!</button>';
-        $str .= '</form>';
-        return $str;
+        $auction = new Auction($bids,$data['date_of_shift'], $data['max_num_employees'], $this->userEmail, $userPoints, $id);
+        $auction->printAuctionModel();
     }
     public function drawCalendar()
     {
@@ -214,7 +206,7 @@ class Calendar
         echo '<tr>';
         foreach ($unixDates as $key) {
             echo "<th>";
-            echo date("m d Y", $key);
+            echo "<h4>" . str_replace(" ", "/", date("m d Y", $key)) . "</h4>";
             echo "</th>";
         }
         echo "</tr>";

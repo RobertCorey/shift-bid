@@ -1,13 +1,6 @@
-<!-- 
-
-	Page to check user login information 
-
- -->
 <?php
 	//session_start();
 	//Connect to the database
-	//$link = mysqli_connect("localhost", "root", "", "shift-bid") or die(mysqli_error()); 
-
 	require 'php/global.php';
 
 	//Gather variables from form

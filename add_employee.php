@@ -7,7 +7,7 @@
 session_start();
 
 //Check to make sure employee is logged in 
-include 'global.php';
+include 'php/global.php';
 
 ?>
 
@@ -42,15 +42,11 @@ include 'global.php';
 
 		// Hash the password to be stored securely in the database
 		$hashed_pword = md5($password);
-
-		// Connect to the database
-		$link = mysqli_connect("localhost", "root", "", "shift-bid") or die(mysqli_error()); 
-
 		# Create query string with marker for $uname
 		$query = "SELECT * FROM employee WHERE emp_email = ?";
 
 		# Prepare the query statement
-		if (!$stmt = mysqli_prepare($link, $query)) {
+		if (!$stmt = mysqli_prepare($database, $query)) {
 		  die("Error in query");
 		}
 		  
@@ -85,7 +81,7 @@ include 'global.php';
 		        VALUES (?, ?, ?, 0, ?, ?)";
 		        
 		  # Prepare the query statement
-		  if (!$stmt = mysqli_prepare($link, $query)) {
+		  if (!$stmt = mysqli_prepare($database, $query)) {
 		    die("Error in query");
 		  }
 
@@ -103,7 +99,7 @@ include 'global.php';
 		}
 
 		# Close the connection
-		mysqli_close($link);
+		mysqli_close($database);
 
 		?>
     </div>

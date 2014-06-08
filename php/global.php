@@ -7,17 +7,12 @@ function protectPage()
         die();
     }
 }
-
-if (isset($_SESSION)){
-	//do nothing, session has already been started
-}
-else{
+if (!isset($_SESSION)){
 	//No session has been started, must start one
 	session_start();
 }
 
 if (!isset($database)) {
-    include 'databaseConnect.php';
+    $database = mysqli_connect("localhost", "root", "jaFuw7eNu", "shift-bid") or die("Could not connect");
 }
-protectPage();
 ?>

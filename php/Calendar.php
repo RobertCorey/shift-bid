@@ -4,7 +4,6 @@
 */
 class Calender
 {
-    
     function __construct($days,$timezone, $database)
     {
         $this->days = $days;
@@ -23,9 +22,11 @@ class Calender
     }
     private function generateShiftBlock($id,$maxNumber)
     {
-        $result = $this->database->query("SELECT `bid_emp_number`, `timestamp`, `wager` FROM `bids`
+        $blank = TRUE;
+        $result = $this->database->query("SELECT `bid_emp_number`, `timestamp`, `wager` FROM `bids`, `employee`
             WHERE shift = '$id'
-            ORDER BY `timestamp` DESC");
+            AND employee.emp_num = bids.bid_emp_number
+            ORDER BY `timestamp` ASC");
         $leaderBoard = "<ul>";
         for ($i=0; $i < $maxNumber; $i++) { 
             $bidInfo = $result->fetch_assoc();
@@ -33,9 +34,6 @@ class Calender
             $wager = $bidInfo['wager'];
             $employeeInfo = $this->database->query("SELECT emp_f_name, emp_l_name FROM employee WHERE emp_num = '$employeeID'");
             if ($employeeInfo->num_rows === 0) {
-                if ($i === 0) {
-                    $maxWager = 0;
-                }
                 $leaderBoard .= "<li> Shift Spot Open</li>";
             } else {
                 if ($i === 0 ) {
@@ -49,14 +47,21 @@ class Calender
         $leaderBoard .= $this->drawBidButton($maxWager);
         return $leaderBoard;
     }
-    private function drawBidButton($maxBid)
+    private function proccessBids($bidArr)
     {
-        $str = 
-      '<form action="validateBid.php">
-        <input type="text" name="bidAmount" size="1" value="' . ($maxBid += 1) .'">
-        <input type="hidden" name="maxBid" value="' . $maxBid . '">
-        <button class="btn btn-default">Submit Bid!</button>
-      </form>';
+    }
+    private function drawBidButton($minBid)
+    {
+        //Get the current Employee's number of points
+        $id = $_SESSION['emp_num'];
+        $result = $database->query("SELECT emp_points FROM employee WHERE emp_num = '$id'");
+        $data = $result->fetch_assoc();
+        $points = $data['emp_points'];
+        $str = '<form action="php/submitBid.php" method="POST">';
+        $str .= '<input type="hidden" name="maxBid" value="' . $maxBid . '">';
+        $str .= '<button class="btn btn-success">';
+        $str .= ' Claim a spot for ' . ($maxBid + 1) . ' points!</button>';
+        $str .= '</form>';
         return $str;
     }
     public function drawCalendar()
@@ -95,7 +100,12 @@ class Calender
     }
 }
 $database = mysqli_connect("localhost", "root", "jaFuw7eNu", "shift-bid") or die;
-$cal = new Calender(4,"America/New_York", $database);
+// $cal = new Calender(4,"America/New_York", $database);
+$result = $database->query("SELECT `emp_f_name`, `emp_l_name`, `bid_emp_number`, `timestamp`, `wager` FROM `bids`, `employee`
+            WHERE shift = '15'
+            AND employee.emp_num = bids.bid_emp_number
+            ORDER BY `timestamp` ASC");
+print_r($result->fetch_assoc());
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -116,7 +126,7 @@ $cal = new Calender(4,"America/New_York", $database);
 </head>
 <body>
     <div class="container">
-        <?php $cal->drawCalendar(); ?>
+        <?php //$cal->drawCalendar(); ?>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>

@@ -19,7 +19,7 @@
 
 		if ($numRows != 0)
 		{
-			$_SESSION['email'] = $email;
+			$_SESSION['emp_email'] = $email;
 
 			//See if the user is a manager, this is an admin function
 			//No user was found when checking the database

@@ -50,11 +50,12 @@ class Bid
 class Auction
 {
     
-    function __construct($auctionData,$date,$maxNumber,$userEmail)
+    function __construct($auctionData,$date,$maxNumber,$userEmail,$userBalance)
     {
         $this->proccessBidData($auctionData);
         $this->date = $date;
         $this->maxNumber = $maxNumber;
+        $this->userBalance = $userBalance;
     }
 
     private function proccessBidData($auctionData)
@@ -74,6 +75,16 @@ class Auction
         } else {
             return array_slice($this->bids,0,$this->maxNumber);
         }
+    }
+    private function getMinimumBid()
+    {
+        //if there are spots the minimum is 1
+        if ( count($this->bids) < $this->maxNumber ) {
+            return 1;
+        } else {
+            $winningBids = $this->getWinningBids();
+            $lastPlaceBid = $winningBids[count($winningBids) - 1];
+        }
     } 
     private function isDateOkay()
     {
@@ -85,6 +96,10 @@ class Auction
         } else {
             return true;
         }
+    }
+    private function userBalanceOkay()
+    {
+    
     }
     private function printWinnerList()
     {
@@ -103,6 +118,8 @@ class Auction
         $printList .= "</table>";
         if (!$this->isDateOkay()) {
             $printList .= "<button class='btn btn-lg btn-warning disabled'> Bidding Closed </button>";
+        } elseif (true) {
+            echo "true";
         }
         echo $printList;
     }
@@ -137,7 +154,7 @@ class Calendar
             $start += 1;
         }
         return $dates;
-    }
+    } 
     private function generateShiftBlock($id,$maxNumber)
     {
         $bids = [];
@@ -152,7 +169,9 @@ class Calendar
         }
         $result = $this->database->query("SELECT `date_of_shift`, `max_num_employees` FROM `shifts` WHERE `shift_id` = '$id'");
         $data = $result->fetch_assoc();
-        $auction = new Auction($bids,$data['date_of_shift'], $data['max_num_employees'],$this->userEmail);
+        $result = $this->database->query("SELECT `emp_points` FROM `employee` WHERE emp_email = '$this->userEmail' ");
+        $userPoints = $result->fetch_assoc()['emp_points'];
+        $auction = new Auction($bids,$data['date_of_shift'], $data['max_num_employees'], $this->userEmail, $userPoints);
         $auction->test();
     }
     private function drawBidList($bids,$maxNumber)

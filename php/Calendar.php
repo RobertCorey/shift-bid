@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**
 * Represents a Calendar that can be clicked upon
 */
@@ -22,33 +22,37 @@ class Calender
     }
     private function generateShiftBlock($id,$maxNumber)
     {
-        $blank = TRUE;
-        $result = $this->database->query("SELECT `bid_emp_number`, `timestamp`, `wager` FROM `bids`, `employee`
+        $bids = [];
+        $requiredBid = 1;
+        //get information
+        $result = $database->query("SELECT `emp_f_name`, `emp_l_name`, `bid_emp_number`, `timestamp`, `wager` FROM `bids`, `employee`
             WHERE shift = '$id'
             AND employee.emp_num = bids.bid_emp_number
-            ORDER BY `timestamp` ASC");
-        $leaderBoard = "<ul>";
-        for ($i=0; $i < $maxNumber; $i++) { 
-            $bidInfo = $result->fetch_assoc();
-            $employeeID = $bidInfo['bid_emp_number'];
-            $wager = $bidInfo['wager'];
-            $employeeInfo = $this->database->query("SELECT emp_f_name, emp_l_name FROM employee WHERE emp_num = '$employeeID'");
-            if ($employeeInfo->num_rows === 0) {
-                $leaderBoard .= "<li> Shift Spot Open</li>";
+            ORDER BY `timestamp` DESC");
+        while($data = $result->fetch_assoc()){
+            $bids[] = $data;
+        }
+        if ( count($bids) < $maxNumber ) {
+            array_splice($bids,$maxNumber);
+            $requiredBid = $bids[count($bids) - 1]['wager'];
+        }
+        $bidList = $this->drawBidList($bids);
+        $bidList .= $this->drawBidButton($maxWager);
+        return $bidList;
+    }
+    private function drawBidList($bids,$maxNumber)
+    {
+        $bidList = "<ul>";
+        for ($i=0; $i < count($maxNumber); $i++) { 
+            //if there are more spots than there are bids
+            if ($i > count($bids)) {
+                $bidList .= "<li> Open Shift Spot! </li>";
             } else {
-                if ($i === 0 ) {
-                    $maxWager = $wager;
-                }
-                $employeeName = $employeeInfo->fetch_assoc();
-                $leaderBoard .= "<li>" . $employeeName['emp_f_name'] . " " . $employeeName['emp_l_name'] . " Bid: " . $wager . "</li>";
+                $bidList .= "<li>" . $bids['emp_f_name'] . " " . $bids['emp_l_name'] . " Bid: " . $bids['wager'] . "</li>";
             }
         }
-        $leaderBoard .= "</ul>";
-        $leaderBoard .= $this->drawBidButton($maxWager);
-        return $leaderBoard;
-    }
-    private function proccessBids($bidArr)
-    {
+        $bidList = "</ul>";
+        return $bidList;
     }
     private function drawBidButton($minBid)
     {

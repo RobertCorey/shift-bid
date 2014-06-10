@@ -32,11 +32,16 @@
                 <button class="btn btn-default">Log In</button>
             </form>
         </div>
-        <div class="jumbotron">
-            <h1><center>Shift Bid</center></h1>
+        <div class="row">
+            <div class="col-xs-6">
+                 <img src="shiftBidLogo.png" id="logo">
+            </div>
+            <div class="col-xs-6">
+                <span style="font-size:150%;padding-top:5%;">
+                    Give your restaurant's best shifts, to the best people. 
+                </span>
+            </div>
         </div>
-        <h2><center>Shift Bid is going to revolutionize the restaurant industry.  It is a web application used by employees to bid on popular shifts in a restaurant setting. </center></h2>
-        <h1>Game Theory Optimal Scheduling Anyone??</h1>
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
